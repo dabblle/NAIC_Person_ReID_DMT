@@ -39,10 +39,10 @@ if __name__ == '__main__':
         "--config_file_test", default="", help="path to config file", type=str
     )
     parser.add_argument(
-        "--data_dir_query", default="", help="dir to the query datasets", type=str
+        "--data_dir_query", default="/opt/data/private/DATASETS/REID/NAIC/test/query_a", help="dir to the query datasets", type=str
     )
     parser.add_argument(
-        "--data_dir_gallery", default="", help="dir to the gallery datasets", type=str
+        "--data_dir_gallery", default="/opt/data/private/DATASETS/REID/NAIC/test/gallery_a", help="dir to the gallery datasets", type=str
     )
     parser.add_argument("opts", help="Modify config options using the command-line", default=None,
                         nargs=argparse.REMAINDER)

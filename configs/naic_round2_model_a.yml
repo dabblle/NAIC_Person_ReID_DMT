@@ -1,11 +1,11 @@
 MODEL:
   PRETRAIN_CHOICE: 'imagenet'
-  PRETRAIN_PATH: '/root/.cache/torch/checkpoints/resnet101_ibn_a.pth.tar'
+  PRETRAIN_PATH: '/opt/data/private/code/NAIC_Person_ReID_DMT/IBN-Net_pytorch0.4.1/resnet101_ibn_a.pth'
   METRIC_LOSS_TYPE: 'triplet_center'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'yes'
   NAME: 'resnet101_ibn_a'
-  DEVICE_ID: ('1')
+  DEVICE_ID: ('0,1,2,3')
   ID_LOSS_TYPE: 'arcface'
   ID_LOSS_WEIGHT: 0.1
   TRIPLET_LOSS_WEIGHT: 0.9
@@ -21,13 +21,13 @@ INPUT:
 
 DATASETS:
   NAMES: ('naic')
-  ROOT_DIR: ('../data')
+  ROOT_DIR: ('/opt/data/private/DATASETS/REID/NAIC/')
   HARD_AUG: True
 
 DATALOADER:
   SAMPLER: 'softmax_triplet'
   NUM_INSTANCE: 8
-  NUM_WORKERS: 8
+  NUM_WORKERS: 16
 
 SOLVER:
   OPTIMIZER_NAME: 'Ranger'

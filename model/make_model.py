@@ -154,13 +154,13 @@ class Backbone(nn.Module):
         for i in param_dict:
             if 'classifier' in i or 'arcface' in i:
                 continue
-            self.state_dict()[i].copy_(param_dict[i])
+            self.state_dict()[i.replace('module.', '')].copy_(param_dict[i])
         print('Loading pretrained model from {}'.format(trained_path))
 
     def load_param_finetune(self, model_path):
         param_dict = torch.load(model_path)
         for i in param_dict:
-            self.state_dict()[i].copy_(param_dict[i])
+            self.state_dict()[i.replace('module.', '')].copy_(param_dict[i])
         print('Loading pretrained model for finetuning from {}'.format(model_path))
 
 def make_model(cfg, num_class):

@@ -10,7 +10,7 @@ class NAIC(BaseImageDataset):
         self.dataset_dir_train = osp.join(self.dataset_dir, 'train')
         self.dataset_dir_test = osp.join(self.dataset_dir, 'test')
 
-        train = self._process_dir(self.dataset_dir_train, relabel=True)
+        train = self._process_dir(self.dataset_dir, relabel=True)
         query_green, query_normal = self._process_dir_test(self.dataset_dir_test,  query = True)
         gallery_green, gallery_normal = self._process_dir_test(self.dataset_dir_test, query = False)
         if verbose:
@@ -27,7 +27,7 @@ class NAIC(BaseImageDataset):
 
 
     def _process_dir(self, data_dir, relabel=True):
-        filename = osp.join(data_dir, 'train_list.txt')
+        filename = osp.join(data_dir, 'label.txt')
         dataset = []
         camid = 1
         count_image=defaultdict(list)
@@ -36,9 +36,9 @@ class NAIC(BaseImageDataset):
                 lines = file_to_read.readline()
                 if not lines:
                     break
-                img_name,img_label = [i for i in lines.split()]
-                if img_name == 'train/105180993.png' or img_name=='train/829283568.png' or img_name=='train/943445997.png': # remove samples with wrong label
-                    continue
+                img_name,img_label = [i for i in lines.split(':')]
+                # if img_name == 'train/105180993.png' or img_name=='train/829283568.png' or img_name=='train/943445997.png': # remove samples with wrong label
+                #     continue
                 count_image[img_label].append(img_name)
         val_imgs = {}
         pid_container = set()
@@ -49,6 +49,7 @@ class NAIC(BaseImageDataset):
                 val_imgs[pid] = count_image[pid]
                 pid_container.add(pid)
         pid2label = {pid: label for label, pid in enumerate(pid_container)}
+        data_dir = osp.join(data_dir,'train')
         for pid, img_name in val_imgs.items():
             pid = pid2label[pid]
             for img in img_name:
@@ -63,6 +64,7 @@ class NAIC(BaseImageDataset):
             subfix = 'gallery_a'
 
         datatype = ['green', 'normal']
+        # data_dir = osp.join(data_dir, 'test')
         for index, type in enumerate(datatype):
             filename = osp.join(data_dir, '{}_{}.txt'.format(subfix, type))
             dataset = []
